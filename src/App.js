@@ -17,6 +17,7 @@ const App = () => {
 
   const [editedProduct, setEditedProduct] = useState({});
 
+
   function addProduct(newObj) {
     let newProducts = [...products];
     newProducts.push(newObj);
@@ -31,12 +32,28 @@ const App = () => {
     setShowEditModal(true);
   };
 
+  function saveChanges(newObj) {
+    let newProducts = products.map(item => {
+      if (item.id === newObj.id) {
+        return newObj
+      }
+      return item
+    })
+    setProducts(newProducts)
+    setShowEditModal(false)
+  }
+
+  function deleteProduct(id) {
+    let newProducts = products.filter(item => item.id!== id);
+    setProducts(newProducts);
+  }; 
+
   return (
     <>
       <Header handleShow={handleShow} />
       <AddProduct show={show} handleClose={handleClose} addProduct={addProduct} />
-      <ProductList products={products} getOneProduct={getOneProduct} />
-      {showEditModal && <EditProduct showEditModal={showEditModal} handleEditClose={handleEditClose} editedProduct={editedProduct} />}
+      <ProductList products={products} getOneProduct={getOneProduct} deleteProduct={deleteProduct} />
+      {showEditModal && <EditProduct showEditModal={showEditModal} handleEditClose={handleEditClose} editedProduct={editedProduct} saveChanges={saveChanges}/>}
     </>
   )
 }

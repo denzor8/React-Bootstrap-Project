@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Modal, FormControl } from 'react-bootstrap';
 
-const EditProduct = ({ showEditModal, handleEditClose, editedProduct }) => {
+const EditProduct = ({ showEditModal, handleEditClose, editedProduct , saveChanges}) => {
     const [product, setProduct] = useState(editedProduct);
 
     const handleInput = e => {
@@ -12,6 +12,16 @@ const EditProduct = ({ showEditModal, handleEditClose, editedProduct }) => {
         setProduct(newObj);
     };
 
+
+    function saveEditedProduct() {
+        for (let key in product) {
+            if (product[key] === '') {
+                alert('Some inputs are empty')
+                return 
+            }
+        }
+        saveChanges(product)
+    }
     return (
         <>
             <Modal show={showEditModal} onHide={handleEditClose}>
@@ -33,7 +43,7 @@ const EditProduct = ({ showEditModal, handleEditClose, editedProduct }) => {
                 <Button variant="secondary" onClick={handleEditClose}>
                     Close
                 </Button>
-                <Button variant="primary">
+                <Button variant="primary" onClick={saveEditedProduct}>
                     Save Changes
                 </Button>
                 </Modal.Footer>
